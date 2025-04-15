@@ -1,6 +1,6 @@
-
-
 import { Component } from '@angular/core';
+import { BrandRegistrationService } from 'src/app/services/brand-registration.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-reg-three',
@@ -8,32 +8,36 @@ import { Component } from '@angular/core';
   styleUrls: ['./reg-three.component.css']
 })
 export class RegThreeComponent {
+  isSubmitted = false;
+  selectedPlan = '';
 
-  basicPlan = {
-    title: 'Basic',
-    price: 25.0,
-    features: ['1 Owner', 'Limited products', 'Post 5 products']
-  };
+  constructor(
+    private registrationService: BrandRegistrationService,
+    private http: HttpClient
+  ) {}
 
-  premiumPlan = {
-    title: 'Premium',
-    price: 150.0,
-    features: ['Unlimited Owners', 'Unlimited Products', 'Post Free products']
-  };
-
-
-  startTrial(planType: string): void {
-    console.log(`Free trial started for the ${planType} plan.`);
-    alert(`You have started a free trial for the ${planType} plan.`);
+  selectPlan(plan: string) {
+    this.selectedPlan = plan;
+    this.registrationService.selectedPlan = plan;
   }
 
-  isSubmitted = false; 
-
   submitRequest(): void {
-    this.isSubmitted = true; 
+    const finalData = this.registrationService.getFinalRegistrationData();
+    console.log('Final Data:', finalData);
+
+    this.http.post('http://localhost:5090/api/Account/register/Brand', finalData).subscribe({
+      next: (res) => {
+        console.log('Response:', res);
+        this.isSubmitted = true;
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert('Something went wrong!');
+      }
+    });
   }
 
   closePopup(): void {
-    this.isSubmitted = false; 
+    this.isSubmitted = false;
   }
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component  ,OnInit} from '@angular/core';
+import { ProductService } from 'src/app/services/product.service'; 
 
 interface Product {
   id: number;
@@ -10,45 +11,54 @@ interface Product {
   type: string;
 }
 
+
 @Component({
   selector: 'app-my-products',
   templateUrl: './my-products.component.html',
   styleUrls: ['./my-products.component.css']
 })
-export class MyProductsComponent {
-  // products = [
-  //   { name: '', image: '', price: '' , colors: [] },
-  //   { name: '', image: '', price: '', colors: [] },
-  //   { name: '', image: '', price: '', colors: [] },
-  //   { name: '', image: '', price: '', colors: [] },
-  // ];
-
-  searchText: string = '';
-  selectedProduct: Product | null = null;
+export class MyProductsComponent implements OnInit{
   
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'Coffee Mug',
-      price: 50,
-      image: 'assets/mug.png',
-      colors: ['#000', '#fff', '#800080'],
-      description: 'Stylish and durable coffee mug, perfect for daily use or gifting!',
-      type: 'Mug'
-    },
-  ];
-
-  filteredProducts() {
-    return this.products.filter(p => p.name.toLowerCase().includes(this.searchText.toLowerCase()));
-  }
-
-  showProductDetails(product: Product) {
-    console.log('Selected Product:', product);
-    this.selectedProduct = product;
-  }
-
-  closeModal() {
-    this.selectedProduct = null;
-  }
+    searchText: string = '';
+    selectedProduct: Product | null = null;
+    products: Product[] = [];
+    isLoading = false;
+    errorMessage = '';
+  
+    constructor(private productService: ProductService) {}
+  
+    ngOnInit() {
+      const brandId = 123; 
+      this.fetchProducts(brandId);
+    }
+    
+    fetchProducts(brandId: number) {
+      this.isLoading = true;
+      this.productService.getProductsByBrand(brandId).subscribe({
+        next: (data) => {
+          this.products = data;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.errorMessage = 'Error fetching products';
+          this.isLoading = false;
+        }
+      });
+    }
+    
+  
+    filteredProducts() {
+      return this.products.filter(p =>
+        p.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
+  
+    showProductDetails(product: Product) {
+      this.selectedProduct = product;
+    }
+  
+    closeModal() {
+      this.selectedProduct = null;
+    }
 
 }

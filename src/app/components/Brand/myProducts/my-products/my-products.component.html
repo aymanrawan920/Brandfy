@@ -47,6 +47,9 @@
         </button>
       </div>
       <!-- Product Grid -->
+      <div *ngIf="isLoading" class="text-center">Loading...</div>
+      <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
+
       <div class="row">
         <div *ngFor="let product of filteredProducts()" class="col-md-3 mb-4">
           <div class="card">

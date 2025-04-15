@@ -53,6 +53,7 @@ import { OrderDetailsComponent } from './components/Brand/brand-orders/order-det
 import { HomeNavbarComponent } from './components/User/home-navbar/home-navbar.component';
 import { CollectionsComponent } from './components/User/collections/collections.component';
 import { ProductCardComponent } from './components/User/product-card/product-card.component';
+import { ManageAccountComponent } from './components/User/manage-account/manage-account.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { ProductCardComponent } from './components/User/product-card/product-car
     HomeNavbarComponent,
     CollectionsComponent,
     ProductCardComponent,
+    ManageAccountComponent,
 
   ],
   imports: [

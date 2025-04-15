@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BrandRegistrationService } from 'src/app/services/brand-registration.service';
 
 @Component({
   selector: 'app-regg-one',
@@ -9,7 +11,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ReggOneComponent {
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private registrationService: BrandRegistrationService
+  ) {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -21,10 +27,8 @@ export class ReggOneComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      console.log('Form Data:', this.registrationForm.value);
-      alert('Registration successful!');
-    } else {
-      alert('Please fill in all required fields correctly.');
+      this.registrationService.stepOneData = this.registrationForm.value;
+      this.router.navigate(['/register']);
     }
   }
 }

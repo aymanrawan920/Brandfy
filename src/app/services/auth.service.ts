@@ -1,18 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import{HttpClient}from'@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private baseUrl = 'http://localhost:5090/api/Account';
 
-  constructor(private _HttpClient:HttpClient) { }
-  register(regForm:object):Observable<any>{
-    return this._HttpClient.post('http://brandfy.tryasp.net/api/Account/register',regForm)
-  }
+  constructor(private http: HttpClient) {}
 
-  login(loginForm:object):Observable<any>{
-    return this._HttpClient.post('http://brandfy.tryasp.net/api/Account/Login',loginForm)
+  registerBrand(data: any) {
+    return this.http.post(`${this.baseUrl}/register/Brand`, data);
   }
 }

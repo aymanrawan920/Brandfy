@@ -63,9 +63,59 @@
   color: #E68332; 
 }
 
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
 .profile-icon {
-  background: #E68332;
+  background-color: #E68332;
   color: white;
+  border: none;
   padding: 8px;
   border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  z-index: 1000;
+  padding: 10px 0;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #E6833238;
+}
+
+.dropdown-item.active {
+  background-color: #E6833238;
+  border-radius: 8px;
+  font-weight: 600;
+  color: black;
 }

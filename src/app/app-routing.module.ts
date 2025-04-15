@@ -38,6 +38,8 @@ import { OrdersComponent } from './components/Brand/brand-orders/orders/orders.c
 import { OrderDetailsComponent } from './components/Brand/brand-orders/order-details/order-details.component';
 import { HomeNavbarComponent } from './components/User/home-navbar/home-navbar.component';
 import { CollectionsComponent } from './components/User/collections/collections.component';
+import { ManageAccountComponent } from './components/User/manage-account/manage-account.component';
+
 
 
 
@@ -78,7 +80,8 @@ const routes: Routes = [
    { path: 'orders', component:OrdersComponent},
    { path: 'order-details/:id', component:OrderDetailsComponent},
    { path: 'home-navbar', component:HomeNavbarComponent},
-   { path: 'collections', component:CollectionsComponent}
+   { path: 'collections', component:CollectionsComponent},
+   { path: 'manage-account', component:ManageAccountComponent}
   
 ];
 

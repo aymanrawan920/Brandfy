@@ -54,9 +54,23 @@
         <a href="#" class="icon">
           <i class="far fa-heart"></i>
         </a>
-        <a href="#" class="icon profile-icon">
-          <i class="fas fa-user"></i>
-        </a>
+        <div class="profile-container" #dropdownRef>
+          <button class="profile-icon" (click)="toggleDropdown()">
+            <i class="fa fa-user"></i>
+          </button>
+
+          <div class="dropdown-menu" [class.show]="dropdownOpen">
+            <a class="dropdown-item active" routerLink="/manage-account">
+              <i class="fa fa-user-gear"></i> Manage my account
+            </a>
+            <a class="dropdown-item" href="/orders">
+              <i class="fa fa-bag-shopping"></i> My Orders
+            </a>
+            <a class="dropdown-item" href="/logout">
+              <i class="fa fa-right-from-bracket"></i> Logout
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

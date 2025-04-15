@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ProductService } from 'src/app/services/product.service';
+
 
 @Component({
   selector: 'app-collections',
@@ -47,5 +49,26 @@ export class CollectionsComponent {
       gridPosition: "1 / 3"
     }
   ];
+
+ 
+
+  // products: any[] = [];
+
+  // constructor(private productService: ProductService) {}
+
+  // ngOnInit(): void {
+  //   this.loadProducts();
+  // }
+
+  // loadProducts() {
+  //   this.productService.getAllProducts().subscribe({
+  //     next: (data) => {
+  //       this.products = data;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading products:', err);
+  //     }
+  //   });
+  // }
   
 }

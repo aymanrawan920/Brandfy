@@ -70,3 +70,33 @@
     </div>
   </div>
 </section>
+<!-- Explore Our Products Section -->
+<!-- <section class="explore-products-section">
+  <div class="container">
+    <h2 class="section-heading">Explore Our Products</h2>
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="badge" *ngIf="product.badge">{{ product.badge }}</div>
+        <div class="wishlist" [class.active]="product.liked">♥</div>
+        <img [src]="product.image" alt="Product Image" class="product-image" />
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.brand }}</p>
+          <div class="price">
+            <span class="new-price">{{ product.newPrice }}</span>
+            <span class="old-price" *ngIf="product.oldPrice">{{
+              product.oldPrice
+            }}</span>
+          </div>
+          <div class="rating">
+            ⭐⭐⭐⭐⭐ <span>({{ product.reviews }})</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="view-all-wrapper">
+      <button class="view-all-btn">View All Products</button>
+    </div>
+  </div>
+</section> -->
+<app-footer></app-footer>

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from 'src/app/services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-products-add',
@@ -8,17 +10,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class MyProductsAddComponent {
   productForm: FormGroup;
-  selectedFile: File | null = null;
   selectedColors: string[] = [];
+  selectedImageFile: File | null = null;
 
-
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService,
+    private router: Router
+  ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       type: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(1)]],
-      description: ['', Validators.required],
-      colors: [[]],
+      available: [0, [Validators.required, Validators.min(1)]],
+      price: [0, [Validators.required, Validators.min(1)]],
+      description: ['', Validators.required]
     });
   }
 
@@ -28,26 +33,40 @@ export class MyProductsAddComponent {
     } else {
       this.selectedColors.push(color);
     }
-    this.productForm.patchValue({ colors: this.selectedColors });
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImageFile = file;
+    }
   }
 
   onSubmit() {
-    if (this.productForm.invalid) return;
+    if (this.productForm.invalid || !this.selectedImageFile || this.selectedColors.length === 0) {
+      alert('Please complete the form, select colors and upload an image.');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('name', this.productForm.value.name);
     formData.append('type', this.productForm.value.type);
-    formData.append('price', this.productForm.value.price);
+    formData.append('available', this.productForm.value.available.toString());
+    formData.append('price', this.productForm.value.price.toString());
     formData.append('description', this.productForm.value.description);
-    formData.append('colors', JSON.stringify(this.productForm.value.colors));
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
+    formData.append('colors', JSON.stringify(this.selectedColors));
+    formData.append('image', this.selectedImageFile);
+    formData.append('brandId', '123'); 
 
+    this.productService.addProduct(formData).subscribe({
+      next: () => {
+        alert('✅ Product added successfully!');
+        this.router.navigate(['/my-products']);
+      },
+      error: (err) => {
+        console.error('Add Product Error:', err);
+        alert('❌ Failed to add product: ' + err.error?.message || 'Unknown error');
+      }
+    });
   }
-
 }
