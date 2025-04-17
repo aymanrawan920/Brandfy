@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BrandRegistrationService } from 'src/app/services/brand-registration.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-regg-one',
@@ -14,7 +14,7 @@ export class ReggOneComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private registrationService: BrandRegistrationService
+    private api: ApiService
   ) {
     this.registrationForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
@@ -27,8 +27,37 @@ export class ReggOneComponent {
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      this.registrationService.stepOneData = this.registrationForm.value;
-      this.router.navigate(['/register']);
+      const { fullName, email, phoneNumber, password } = this.registrationForm.value;
+      const [displayName, ...lastParts] = fullName.trim().split(' ');
+      const lastName = lastParts.join(' ') || '';
+  
+      const payload = {
+        email,
+        phoneNumber,
+        password,
+        displayName,
+        lastName
+      };
+  
+      this.api.registerBrand(payload).subscribe(
+        (res: any) => {
+          console.log('✅ API Response:', res);
+  
+          // تأكد إن التوكن راجع مع الـ response
+          if (res.token && res.userType) {
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('userType', res.userType);
+            console.log('✅ Token saved to localStorage');
+  
+            this.router.navigate(['/register']);
+          } else {
+            console.warn('❌ Token or userType missing in response');
+          }
+        },
+        err => {
+          console.error('❌ Registration failed:', err);
+        }
+      );
     }
   }
 }

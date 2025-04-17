@@ -107,6 +107,7 @@ import { ManageAccountComponent } from './components/User/manage-account/manage-
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,

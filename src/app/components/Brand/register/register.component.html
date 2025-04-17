@@ -17,36 +17,64 @@
       </div>
     </div>
     <div class="down">
-      <form [formGroup]=" brandForm" (ngSubmit)="onSubmit()" class="reg-form">
+      <form [formGroup]="brandForm" (ngSubmit)="onSubmit()" class="reg-form" enctype="multipart/form-data">
 
-    <div class="full">
-      <label for="brandName">Brand Name <span class="astric">*</span></label>
-      <input  formControlName="brandName" placeholder="Enter your brand name" class="name" />
-    </div>
-
-    <div class="full">
-      <label for="category" class="category">Category  <span class="astric">*</span></label>
-      <select id="category" formControlName="category">
-        <option value="clothes">Clothes</option>
-        <option value="accessories">Accessories</option>
-        <option value="electronics">Electronics</option>
-        <option value="handmade">Hand Made</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-
-    <div class="full">
-      <label for="country">Brand Location <span class="astric">*</span></label>
-<div class="country">
-      <input id="country" formControlName="country" placeholder="Country" />
-      <input id="city" formControlName="city" placeholder="City" /></div>
-    </div>
-
-    <div class="form-buttons">
-       <button type="button" class="btn-back" (click)="goBack()" routerLink="/reggone">Back</button>
-
-      <button type="submit" [disabled]="!brandForm.valid" routerLink="/reg-three">Continue</button>
-    </div>
-  </form>
+        <div class="full">
+          <label>Brand Name <span class="astric">*</span></label>
+          <input formControlName="brandName" placeholder="Enter your brand name" />
+        </div>
+      
+        <div class="full">
+          <label>Phone Number <span class="astric">*</span></label>
+          <input formControlName="phoneNumber" placeholder="Enter your phone number" />
+        </div>
+      
+        <div class="full">
+          <label>Category <span class="astric">*</span></label>
+          <select formControlName="categoryId">
+            <option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.category_name }}
+            </option>
+            <option [value]="0">Other</option>
+          </select>
+        </div>
+      
+        <div class="full">
+          <label>Other Category</label>
+          <input formControlName="otherCategory" placeholder="If Other, specify here" />
+        </div>
+      
+        <div class="full">
+          <label>Description <span class="astric">*</span></label>
+          <input formControlName="description" placeholder="Describe your brand" />
+        </div>
+      
+        <div class="full">
+          <label>Country <span class="astric">*</span></label>
+          <input formControlName="country" placeholder="Country" />
+        </div>
+      
+        <div class="full">
+          <label>City <span class="astric">*</span></label>
+          <input formControlName="city" placeholder="City" />
+        </div>
+      
+        <div class="full">
+          <label>District <span class="astric">*</span></label>
+          <input formControlName="district" placeholder="District" />
+        </div>
+      
+        <div class="full">
+          <label>Brand Logo</label>
+          <input type="file" (change)="onFileSelected($event)" />
+        </div>
+      
+        <div class="form-buttons">
+          <button type="button" class="btn-back" (click)="goBack()">Back</button>
+          <button type="submit" [disabled]="!brandForm.valid">Continue</button>
+        </div>
+      
+      </form>
+      
 </div>
 </div>

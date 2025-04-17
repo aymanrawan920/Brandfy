@@ -44,6 +44,7 @@ import { ManageAccountComponent } from './components/User/manage-account/manage-
 
 
 const routes: Routes = [
+  { path: '', redirectTo: 'reggone', pathMatch: 'full' },
   {path: 'reggone', component: ReggOneComponent},
    {path:"register", component:RegisterComponent},
    {path:'reg-three',component:RegThreeComponent},

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BrandRegistrationService } from 'src/app/services/brand-registration.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'register',
@@ -10,27 +10,67 @@ import { BrandRegistrationService } from 'src/app/services/brand-registration.se
 })
 export class RegisterComponent {
   brandForm: FormGroup;
+  selectedFile: File | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private registrationService: BrandRegistrationService
-  ) {
-    this.brandForm = this.fb.group({
-      brandName: ['', Validators.required],
-      category: ['', Validators.required],
-      country: ['', Validators.required],
-      city: ['', Validators.required]
-    });
+  categories: any[] = [];
+
+constructor(
+  private fb: FormBuilder,
+  private router: Router,
+  private api: ApiService
+) {
+  this.brandForm = this.fb.group({
+    brandName: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
+    categoryId: ['', Validators.required],
+    otherCategory: [''],
+    description: ['', Validators.required],
+    country: ['', Validators.required],
+    city: ['', Validators.required],
+    district: ['', Validators.required]
+  });
+
+  this.fetchCategories(); // 👈 Call on init
+}
+fetchCategories(): void {
+  this.api.getCategories().subscribe({
+    next: (res: any) => {
+      console.log('✅ Categories response:', res);
+      this.categories = res.$values ?? [];
+    },
+    error: (err) => {
+      console.error('❌ Failed to fetch categories', err);
+    }
+  });
+}
+
+
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
   }
 
   onSubmit(): void {
     if (this.brandForm.valid) {
-      this.registrationService.stepTwoData = this.brandForm.value;
-      this.router.navigate(['/reg-three']);
+      const formData = new FormData();
+  
+      formData.append('brandName', this.brandForm.value.brandName);
+      formData.append('categoryId', this.brandForm.value.categoryId);
+      formData.append('country', this.brandForm.value.country);
+      formData.append('city', this.brandForm.value.city);
+  
+      this.api.createBrand(formData).subscribe({
+        next: () => {
+          this.router.navigate(['/reg-three']);
+        },
+        error: err => {
+          console.error('❌ Failed to create brand', err);
+        }
+      });
     }
   }
+
   goBack(): void {
-    console.log("Back button clicked");
+    this.router.navigate(['/reggone']);
   }
 }
