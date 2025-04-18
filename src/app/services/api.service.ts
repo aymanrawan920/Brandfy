@@ -17,13 +17,14 @@ export class ApiService {
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/Category`);
   }
-
-  createBrand(data: any): Observable<any> {
+  createBrand(data: FormData): Observable<any> {
     const token = localStorage.getItem('token');
+  
+    console.log('🟢 TOKEN SENT:', token); // تأكد إنه طالع مش null
+  
     return this.http.post(`${this.baseUrl}/brands`, data, {
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${token}` // لازم يكون Bearer كده بالظبط
       }
     });
   }

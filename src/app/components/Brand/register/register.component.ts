@@ -20,16 +20,18 @@ constructor(
   private api: ApiService
 ) {
   this.brandForm = this.fb.group({
-    brandName: ['', Validators.required],
-    phoneNumber: ['', Validators.required],
-    categoryId: ['', Validators.required],
-    otherCategory: [''],
-    description: ['', Validators.required],
-    country: ['', Validators.required],
-    city: ['', Validators.required],
-    district: ['', Validators.required]
+    BrandName: ['', Validators.required],
+    PhoneNumber: ['', Validators.required],
+    CategoryId: ['', Validators.required],
+    OtherCategory: [''],
+    Description: ['', Validators.required],
+    Country: ['', Validators.required],
+    City: ['', Validators.required],
+    District: ['', Validators.required],
+    UserNames: [[]], // لو عندك inputs ليهم
+    Urls: [[]],       // لو عندك inputs ليهم
+    logoFile: [null]  // في حالة رفع صورة
   });
-
   this.fetchCategories(); // 👈 Call on init
 }
 fetchCategories(): void {
@@ -52,23 +54,47 @@ fetchCategories(): void {
 
   onSubmit(): void {
     if (this.brandForm.valid) {
+      const formValues = this.brandForm.value;
+  
+      // ✅ اطبع البيانات في الكونسول قبل ما تعمل أي حاجة
+      console.log('🟢 بيانات الفورم المرسلة:', formValues);
+  
       const formData = new FormData();
   
-      formData.append('brandName', this.brandForm.value.brandName);
-      formData.append('categoryId', this.brandForm.value.categoryId);
-      formData.append('country', this.brandForm.value.country);
-      formData.append('city', this.brandForm.value.city);
+      formData.append('BrandName', formValues.BrandName);
+      formData.append('PhoneNumber', formValues.PhoneNumber);
+      formData.append('CategoryId', formValues.CategoryId);
+      formData.append('OtherCategory', formValues.OtherCategory || '');
+      formData.append('Description', formValues.Description);
+      formData.append('Country', formValues.Country);
+      formData.append('City', formValues.City);
+      formData.append('District', formValues.District);
+  
+      // Arrays
+      formData.append('UserNames', JSON.stringify(formValues.UserNames ?? []));
+      formData.append('Urls', JSON.stringify(formValues.Urls ?? []));
+  
+      
+      if (this.selectedFile) {
+        formData.append('logoFile', this.selectedFile);
+      }
   
       this.api.createBrand(formData).subscribe({
         next: () => {
+          console.log('✅ Brand created successfully');
           this.router.navigate(['/reg-three']);
         },
         error: err => {
           console.error('❌ Failed to create brand', err);
         }
       });
+  
+    } else {
+      console.warn('⚠️ الفورم غير صالح. رجاءً تأكد من إدخال جميع البيانات المطلوبة.');
     }
+    
   }
+
 
   goBack(): void {
     this.router.navigate(['/reggone']);

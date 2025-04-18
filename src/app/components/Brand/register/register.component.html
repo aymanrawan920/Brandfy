@@ -21,17 +21,17 @@
 
         <div class="full">
           <label>Brand Name <span class="astric">*</span></label>
-          <input formControlName="brandName" placeholder="Enter your brand name" />
+          <input formControlName="BrandName" placeholder="Enter your brand name" />
         </div>
       
         <div class="full">
           <label>Phone Number <span class="astric">*</span></label>
-          <input formControlName="phoneNumber" placeholder="Enter your phone number" />
+          <input formControlName="PhoneNumber" placeholder="Enter your phone number" />
         </div>
       
         <div class="full">
           <label>Category <span class="astric">*</span></label>
-          <select formControlName="categoryId">
+          <select formControlName="CategoryId">
             <option *ngFor="let cat of categories" [value]="cat.id">
               {{ cat.category_name }}
             </option>
@@ -41,27 +41,27 @@
       
         <div class="full">
           <label>Other Category</label>
-          <input formControlName="otherCategory" placeholder="If Other, specify here" />
+          <input formControlName="OtherCategory" placeholder="If Other, specify here" />
         </div>
       
         <div class="full">
           <label>Description <span class="astric">*</span></label>
-          <input formControlName="description" placeholder="Describe your brand" />
+          <input formControlName="Description" placeholder="Describe your brand" />
         </div>
       
         <div class="full">
           <label>Country <span class="astric">*</span></label>
-          <input formControlName="country" placeholder="Country" />
+          <input formControlName="Country" placeholder="Country" />
         </div>
       
         <div class="full">
           <label>City <span class="astric">*</span></label>
-          <input formControlName="city" placeholder="City" />
+          <input formControlName="City" placeholder="City" />
         </div>
       
         <div class="full">
           <label>District <span class="astric">*</span></label>
-          <input formControlName="district" placeholder="District" />
+          <input formControlName="District" placeholder="District" />
         </div>
       
         <div class="full">
